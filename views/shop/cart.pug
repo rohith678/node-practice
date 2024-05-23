@@ -1,0 +1,12 @@
+extends ../layouts/main-layout.pug
+
+block content 
+    main
+        ul 
+            for product in products 
+                li 
+                    p #{product.product.title} (#{product.quantity})
+                    form(action="/delete-cart" , method="POST")
+                        button.btn(type="submit") Delete
+                        input(type="hidden" value=product.product.id name="id")
+                        input(type="hidden" value=product.product.price name="price")

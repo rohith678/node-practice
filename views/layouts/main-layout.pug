@@ -1,0 +1,25 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title #{pageTitle}
+        link(rel="stylesheet", href="/css/main.css")
+        block styles 
+    body 
+        header.main-header
+            nav.main-header__nav 
+                ul.main-header__item-list
+                    li.main-header__item
+                        a(href="/" , class= pageTitle === 'Home' ? 'active': '') Shop
+                    li.main-header__item
+                        a(href="/products" , class= pageTitle === 'shop' ? 'active': '') Products
+                    li.main-header__item
+                        a(href="/cart" , class= pageTitle === 'Cart' ? 'active': '') Cart 
+                    li.main-header__item
+                        a(href="/orders" , class= pageTitle === 'Orders' ? 'active': '') Orders 
+                    li.main-header__item
+                        a(href="/add-product" ,class= pageTitle === 'Add products' ? 'active': '' ) Add Product 
+                    li.main-header__item
+                        a(href="/admin-products" , class= pageTitle === 'Admin Products' ? 'active': '') Admin Products 
+        block content
