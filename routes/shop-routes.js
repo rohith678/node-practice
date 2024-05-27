@@ -10,6 +10,7 @@ route.get("/cart", shopProducts.getCart)
 route.post("/cart", shopProducts.addToCart)
 route.get("/orders", shopProducts.getOrders)
 route.post("/delete-cart", shopProducts.deleteItemFromCart)
+route.post('/create-order', shopProducts.postOrder)
 
 module.exports = {
     routes:route

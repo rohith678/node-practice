@@ -6,22 +6,28 @@ const getAddProduct = (req,res,next) =>{
 }
 
 const postAddProduct = (req,res,next) => {
+    const user = req.user
     const title = req.body.title
     const imageURL = req.body.imageURL
     const price = req.body.price
     const description = req.body.description
-    const product = new Product.Productclass(null,title,imageURL,price,description)
-    product.save()
-    res.redirect("/")
+    console.log("user ",user)
+    user.createProduct({title, price, description,imageURL})
+    .then((product) => {
+        res.redirect("/")
+    }).catch((err) => {
+        console.log(err)
+    })
 }
 
 const getEditProduct = (req,res,next) => {
     const editMode = req.query.edit;
     const productId = req.params.productId
-    Product.Productclass.fetchAll((products) => {
-        const requiredProduct = products.find(p => p.id === productId)
-        res.render('admin/add-product.pug',{pageTitle : "Edit products", edit: editMode, product: requiredProduct})
+    Product.findByPk(productId)
+    .then(product => {
+        res.render('admin/add-product.pug',{pageTitle : "Edit products", edit: editMode, product: product})
     })
+    .catch(err => console.log(err))
 }
 
 const postEditProduct = (req,res, next) => {
@@ -30,20 +36,32 @@ const postEditProduct = (req,res, next) => {
     const productURL = req.body.imageURL
     const productDescription = req.body.description
     const productId = req.params.productId
-    const product = new Product.Productclass(productId,productTitle, productURL, productPrice, productDescription)
-    product.save()
-    res.redirect("/admin-products")
+    Product.findByPk(productId)
+    .then(product => {
+        product.title= productTitle
+        product.price= productPrice
+        product.imageURL=productURL
+        product.description= productDescription
+        return product.save()
+    }).then(result => res.redirect("/admin-products"))
+    .catch(err => console.log(err))
 }
 
 const deleteProduct = (req,res,next) => {
     const productId = req.params.productId
-    Product.Productclass.deleteById(productId)
-    res.redirect("/admin-products")
+    Product.findByPk(productId)
+    .then(product => {
+        console.log(product)
+        return product.destroy()
+    }).then(result=>{
+        res.redirect("/admin-products")
+    })
+    .catch(err => console.log(err)) 
 }
 const getAdminProducts = (req,res,next) => {
-    Product.Productclass.fetchAll(prod => {
+    req.user.getProducts().then((prod => {
         res.render('admin/admin-products', {products: prod, pageTitle: 'Admin Products'})
-    })
+      })).catch(err => console.log(err))
 }
 
 module.exports = {

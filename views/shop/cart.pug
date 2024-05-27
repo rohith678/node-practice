@@ -5,8 +5,10 @@ block content
         ul 
             for product in products 
                 li 
-                    p #{product.product.title} (#{product.quantity})
+                    p #{product.title} (#{product.cartItem.quantity})
                     form(action="/delete-cart" , method="POST")
                         button.btn(type="submit") Delete
-                        input(type="hidden" value=product.product.id name="id")
-                        input(type="hidden" value=product.product.price name="price")
+                        input(type="hidden" value=product.id name="id")
+                        input(type="hidden" value=product.price name="price")
+        form(action="/create-order", method="POST")
+            button(type="submit") Checkout
