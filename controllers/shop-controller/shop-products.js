@@ -1,7 +1,9 @@
 const Product = require('../../models/product')
 const User = require("../../models/user")
+const mongodb = require('mongodb')
 
 const getAllProducts = (req,res,next) => {
+   console.log(req.session.username)
     Product.fetchAll().then((prod => {
       res.render('shop/list-products', {products: prod, pageTitle: 'shop'})
     })).catch(err => console.log(err))
@@ -40,20 +42,24 @@ const getAllProducts = (req,res,next) => {
  }
 
  const getProductDetail = (req,res,next) => {
-   const productId = req.params.productId
+    const productId = req.params.productId
    Product.findbyId(productId).then((prod => {
-      res.render('shop/product-detail', {pageTitle: prod.title,product:prod })
-    })).catch(err => console.log(err))
- }
+      res.render('shop/product-detail', { pageTitle: prod.title, product: prod })
+   })).catch(err => console.log(err))
+}
+ 
+
 
  const getOrders = (req,res,next) => {
    req.user.getOrder()
-   .then(orders => {
-      console.log("Orders ", orders)
+   .then(orders =>{
+      console.log(orders)
       res.render('shop/orders' ,{pageTitle : 'Orders'})
+   }).catch(err=> {
+      console.log(err)
    })
 }
- 
+
 const postOrder = (req, res, next ) => {
    req.user.addOrder()
    .then(result => {

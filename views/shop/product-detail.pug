@@ -7,7 +7,9 @@ block content
         img(src = product.imageURL)
         h2 #{product.price} 
         p #{product.description}
-        form(action="/cart" method="POST")
-            button.btn(type="submit") Add To Cart 
-            input(type="hidden" value=product.id name="productId")
-            input(type="hidden" value=product.price name="productPrice") 
+        if isAuthenticated
+            form(action="/cart" method="POST")
+                button.btn(type="submit") Add To Cart 
+                input(type="hidden" name="_csrf" value= csrfToken )
+                input(type="hidden" value=product._id name="productId")
+                input(type="hidden" value=product.price name="productPrice") 

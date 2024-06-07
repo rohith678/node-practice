@@ -12,11 +12,17 @@ block content
                     header.card__header 
                         h1.product__title #{product.title} 
                     .card__image 
-                        img(src=product.imageURL, alt = "A Book")
+                        img(src= product.imageURL, alt = "A Book")
                     .card__content 
                         h2.product__price #{product.price}
                         p.product__description #{product.description} 
-                    .card__actions 
-                        button.btn Add to Cart
+                    .card__actions
+                        a.btn(href="/product/"+product._id) Details
+                        if isAuthenticated 
+                            form(action="/cart" method="POST")
+                                button.btn(type="submit") Add To Cart 
+                                input(type="hidden" name="_csrf" value= csrfToken )
+                                input(type="hidden" value=product._id name="productId")
+                                input(type="hidden" value=product.price name="productPrice") 
         else 
             h1 No products found

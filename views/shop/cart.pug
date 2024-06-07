@@ -1,5 +1,8 @@
 extends ../layouts/main-layout.pug
 
+block styles 
+    link(rel="stylesheet", href="/css/forms.css")
+
 block content 
     main
         ul 
@@ -11,4 +14,5 @@ block content
                         input(type="hidden" value=product._id name="id")
                         input(type="hidden" value=product.price name="price")
         form(action="/create-order", method="POST")
-            button(type="submit") Checkout
+            input(type="hidden" name="_csrf" value= csrfToken )
+            button.btn(type="submit") Checkout

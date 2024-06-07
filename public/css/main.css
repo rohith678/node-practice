@@ -28,6 +28,7 @@ main {
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .main-header__item-list {
@@ -42,9 +43,13 @@ main {
   padding: 0;
 }
 
-.main-header__item a {
+.main-header__item a ,
+.main-header__item button{
   text-decoration: none;
+  background: none;
+  border: none;
   color: white;
+  font: inherit;
 }
 
 .main-header__item a:hover,

@@ -2,6 +2,9 @@ const Product = require('../../models/product')
 
 
 const getAddProduct = (req,res,next) =>{
+    if(!req.session.isLoggedIn) {
+        return res.redirect("/login")
+    }
     res.render('admin/add-product.pug', {pageTitle : "Add products"})
 }
 
@@ -48,7 +51,6 @@ const postEditProduct = (req,res, next) => {
 
 const deleteProduct = (req,res,next) => {
     const productId = req.params.productId
-    console.log(productId)
     Product.deleteById(productId)
     .then(result => {
         console.log(result)

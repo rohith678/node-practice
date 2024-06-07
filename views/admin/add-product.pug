@@ -18,6 +18,7 @@ block content
         .form-control
             label Description
             textarea(rows=5,name="description")  #{edit? product.description : ""}
+            input(type="hidden" name="_csrf" value= csrfToken )
         if(edit==="true")
             button.btn(type="submit") Update Product
         else 

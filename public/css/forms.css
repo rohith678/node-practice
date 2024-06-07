@@ -8,6 +8,7 @@
 {
     display: block;
     width: 100%;
+    max-width: 300px;
     margin-bottom: 0.25rem;
 }
 
@@ -21,4 +22,20 @@
 .form-control input:focus
 .form-control textarea {
     outline-color: #00695c;
+}
+
+.userMessage {
+    margin: auto;
+    width: 70%;
+    border: 1px solid #4771fa;
+    background-color: #8ea8fd;
+    padding: 0.5rem;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.userMessage-error {
+    border-color: red;
+    background: rgb(255,176,176);
+    color: red
 }

@@ -2,22 +2,24 @@ const mongoConnect = require('../util/database')
 const mongodb = require('mongodb')
 
 class User {
-    constructor(name, email, cart, id) {
+    constructor(name, email, password,cart, id) {
         this.name=name
         this.email = email
-        this.cart= cart
-        this._id =id
+        this.cart=cart
+        this.password=password
+        this._id = id
     }
 
     save() {
         const db = mongoConnect.getDb()
+        this.cart = {items:[]}
         return db
         .collection('users')
-        .save(this)
+        .insertOne(this)
         .then(result => {
             console.log('USER CREATED')
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err.message))
     }
 
     static findById(id) {
@@ -32,7 +34,20 @@ class User {
         .catch(err=> console.log(err))
     }
 
+    static findByEmail(email) {
+        const db = mongoConnect.getDb()
+        return db
+        .collection('users')
+        .find({email: email})
+        .toArray()
+        .then(users => {
+            return users[0]
+        })
+        .catch(err=> console.log(err))
+    }
+
     addToCart(productId) {
+        console.log("addTocart ", this.cart.items)
         const cartProductIndex = this.cart.items.findIndex(cp => cp.productId.toString()===productId.toString())
         let newQuantity=1;
         const updatedCartItem = [...this.cart.items]
